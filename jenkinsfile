@@ -2,21 +2,33 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('initialize') {
             steps {
-                echo 'Hello World'
+                sh 'terraform init -no-color'
             }
         }
         
-        stage('Test') {
+        stage('format') {
             steps {
-                echo 'Hello Test'
+                sh 'terraform fmt -no-color'
             }
         }
         
-        stage('Package') {
+        stage('validation') {
             steps {
-                echo 'This is the package'
+                sh 'terraform validate -no-color'
+            }
+        }
+
+        stage('plan') {
+            steps {
+                sh 'terraform plan -no-color'
+            }
+        }
+
+        stage('apply') {
+            steps {
+                sh 'terraform apply --auto-approve -no-color'
             }
         }
     }
